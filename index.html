@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Application</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="#" id="fill-out-survey">FILL OUT SURVEY</a>
+            <a href="#" id="view-survey-results">VIEW SURVEY RESULTS</a>
+        </nav>
+        
+        <div id="survey-form">
+            <h2>Personal Details :</h2>
+            <input type="text" id="full-names" placeholder="Full Names" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="date" id="date-of-birth" placeholder="Date of Birth" required>
+            <input type="tel" id="contact-number" placeholder="Contact Number" required>
+
+            <h3>What is your favorite food?</h3>
+            <label><input type="radio" name="favorite-food" value="Pizza"> Pizza</label>
+            <label><input type="radio" name="favorite-food" value="Pasta"> Pasta</label>
+            <label><input type="radio" name="favorite-food" value="Pap and Wors"> Pap and Wors</label>
+            <label><input type="radio" name="favorite-food" value="Other"> Other</label>
+
+            <h3>Please rate your level of agreement on a scale from 1 to 5, with 1 being "strongly agree" and 5 being "strongly disagree."</h3>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Strongly Agree</th>
+                    <th>Agree</th>
+                    <th>Neutral</th>
+                    <th>Disagree</th>
+                    <th>Strongly Disagree</th>
+                </tr>
+                <tr>
+                    <td>I like to watch movies</td>
+                    <td><input type="radio" name="movies" value="1"></td>
+                    <td><input type="radio" name="movies" value="2"></td>
+                    <td><input type="radio" name="movies" value="3"></td>
+                    <td><input type="radio" name="movies" value="4"></td>
+                    <td><input type="radio" name="movies" value="5"></td>
+                </tr>
+                <tr>
+                    <td>I like to listen to radio</td>
+                    <td><input type="radio" name="radio" value="1"></td>
+                    <td><input type="radio" name="radio" value="2"></td>
+                    <td><input type="radio" name="radio" value="3"></td>
+                    <td><input type="radio" name="radio" value="4"></td>
+                    <td><input type="radio" name="radio" value="5"></td>
+                </tr>
+                <tr>
+                    <td>I like to eat out</td>
+                    <td><input type="radio" name="eat-out" value="1"></td>
+                    <td><input type="radio" name="eat-out" value="2"></td>
+                    <td><input type="radio" name="eat-out" value="3"></td>
+                    <td><input type="radio" name="eat-out" value="4"></td>
+                    <td><input type="radio" name="eat-out" value="5"></td>
+                </tr>
+                <tr>
+                    <td>I like to watch TV</td>
+                    <td><input type="radio" name="tv" value="1"></td>
+                    <td><input type="radio" name="tv" value="2"></td>
+                    <td><input type="radio" name="tv" value="3"></td>
+                    <td><input type="radio" name="tv" value="4"></td>
+                    <td><input type="radio" name="tv" value="5"></td>
+                </tr>
+            </table>
+            <button id="submit">SUBMIT</button>
+        </div>
+
+        <div id="survey-results" style="display: none;">
+            <h2>Survey Results</h2>
+            <p id="results-container"></p>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

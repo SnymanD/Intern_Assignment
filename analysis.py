@@ -1,42 +1,56 @@
-# analysis.py
-import pandas as pd
+from flask import Flask, request, jsonify
 from pymongo import MongoClient
+from bson.json_util import dumps
+from datetime import datetime
 
+app = Flask(__name__)
 client = MongoClient('mongodb://localhost:27017/')
-db = client.surveyDB
-collection = db.surveys
+db = client.survey_db
+surveys = db.surveys
 
-data = pd.DataFrame(list(collection.find()))
+@app.route('/api/submit', methods=['POST'])
+def submit_survey():
+    data = request.get_json()
+    data['dob'] = datetime.strptime(data['dob'], '%Y-%m-%d')
+    surveys.insert_one(data)
+    return jsonify({'message': 'Survey submitted successfully!'}), 201
 
-total_surveys = len(data)
-if total_surveys > 0:
-    average_age = (pd.Timestamp.now() - pd.to_datetime(data['dateOfBirth'])).astype('<m8[Y]').mean()
-    oldest_person = (pd.Timestamp.now() - pd.to_datetime(data['dateOfBirth'])).astype('<m8[Y]').max()
-    youngest_person = (pd.Timestamp.now() - pd.to_datetime(data['dateOfBirth'])).astype('<m8[Y]').min()
+@app.route('/api/results', methods=['GET'])
+def get_results():
+    survey_count = surveys.count_documents({})
+    if survey_count == 0:
+        return jsonify({'message': 'No Surveys Available'}), 200
 
-    percentage_likes_pizza = (data['favoriteFood'].apply(lambda x: 'Pizza' in x).mean()) * 100
-    percentage_likes_pasta = (data['favoriteFood'].apply(lambda x: 'Pasta' in x).mean()) * 100
-    percentage_likes_pap_and_wors = (data['favoriteFood'].apply(lambda x: 'Pap and Wors' in x).mean()) * 100
-
-    average_watch_movies = data['watchMovies'].mean()
-    average_listen_to_radio = data['listenToRadio'].mean()
-    average_eat_out = data['eatOut'].mean()
-    average_watch_tv = data['watchTV'].mean()
-
-    results = {
-        "total_surveys": total_surveys,
-        "average_age": round(average_age, 1),
-        "oldest_person": round(oldest_person, 1),
-        "youngest_person": round(youngest_person, 1),
-        "percentage_likes_pizza": round(percentage_likes_pizza, 1),
-        "percentage_likes_pasta": round(percentage_likes_pasta, 1),
-        "percentage_likes_pap_and_wors": round(percentage_likes_pap_and_wors, 1),
-        "average_watch_movies": round(average_watch_movies, 1),
-        "average_listen_to_radio": round(average_listen_to_radio, 1),
-        "average_eat_out": round(average_eat_out, 1),
-        "average_watch_tv": round(average_watch_tv, 1),
+    all_surveys = list(surveys.find())
+    
+    ages = [(datetime.now() - s['dob']).days // 365 for s in all_surveys]
+    avg_age = sum(ages) / survey_count
+    max_age = max(ages)
+    min_age = min(ages)
+    
+    favorite_foods = [s['favoriteFood'] for s in all_surveys]
+    percentage_pizza = (favorite_foods.count('Pizza') / survey_count) * 100
+    percentage_pasta = (favorite_foods.count('Pasta') / survey_count) * 100
+    percentage_pap_and_wors = (favorite_foods.count('Pap and Wors') / survey_count) * 100
+    
+    def average_rating(category):
+        return sum(int(s['ratings'][category]) for s in all_surveys) / survey_count
+    
+    data = {
+        'total_surveys': survey_count,
+        'average_age': avg_age,
+        'max_age': max_age,
+        'min_age': min_age,
+        'percentage_pizza': percentage_pizza,
+        'percentage_pasta': percentage_pasta,
+        'percentage_pap_and_wors': percentage_pap_and_wors,
+        'average_movies': average_rating('movies'),
+        'average_radio': average_rating('radio'),
+        'average_eat_out': average_rating('eat_out'),
+        'average_tv': average_rating('tv')
     }
-else:
-    results = {}
+    
+    return jsonify(data), 200
 
-print(results)
+if __name__ == '__main__':
+    app.run(debug=True)
