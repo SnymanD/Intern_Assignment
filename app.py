@@ -1,25 +1,38 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
-from bson.json_util import dumps
 from datetime import datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
+
+# Connect to MongoDB
 client = MongoClient('mongodb://localhost:27017/')
 db = client.survey_db
 surveys = db.surveys
 
-@app.route('/api/submit', methods=['POST'])
-def submit_survey():
-    data = request.get_json()
-    data['dob'] = datetime.strptime(data['dob'], '%Y-%m-%d')
-    surveys.insert_one(data)
-    return jsonify({'message': 'Survey submitted successfully!'}), 201
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-@app.route('/api/results', methods=['GET'])
-def get_results():
+@app.route('/submit', methods=['POST'])
+def submit_survey():
+    data = request.form.to_dict()
+    data['dob'] = datetime.strptime(data['dob'], '%Y-%m-%d')
+    data['ratings'] = {
+        'movies': int(data['movies']),
+        'radio': int(data['radio']),
+        'eat_out': int(data['eat_out']),
+        'tv': int(data['tv'])
+    }
+    surveys.insert_one(data)
+    return jsonify({'message': 'Survey submitted successfully!'})
+
+@app.route('/results')
+def view_results():
     survey_count = surveys.count_documents({})
     if survey_count == 0:
-        return jsonify({'message': 'No Surveys Available'}), 200
+        return jsonify({'message': 'No Surveys Available'})
 
     all_surveys = list(surveys.find())
     
@@ -34,7 +47,7 @@ def get_results():
     percentage_pap_and_wors = (favorite_foods.count('Pap and Wors') / survey_count) * 100
     
     def average_rating(category):
-        return sum(int(s['ratings'][category]) for s in all_surveys) / survey_count
+        return sum(s['ratings'][category] for s in all_surveys) / survey_count
     
     data = {
         'total_surveys': survey_count,
@@ -50,7 +63,8 @@ def get_results():
         'average_tv': average_rating('tv')
     }
     
-    return jsonify(data), 200
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
