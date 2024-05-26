@@ -8,6 +8,7 @@
 </head>
 <body>
     <div class="container">
+        <h1 id="title"><b>_Survey</b></h1>
         <nav>
             <a href="#" id="fill-out-survey">FILL OUT SURVEY</a>
             <a href="#" id="view-survey-results">VIEW SURVEY RESULTS</a>
@@ -15,16 +16,23 @@
         
         <div id="survey-form">
             <h2>Personal Details :</h2>
+            <label for="full-names"><b>Full Names</b></label>
             <input type="text" id="full-names" placeholder="Full Names" required>
+
+            <label for="email"><b>Email</b></label>
             <input type="email" id="email" placeholder="Email" required>
+
+            <label for="date-of-birth"><b>Date of Birth</b></label>
             <input type="date" id="date-of-birth" placeholder="Date of Birth" required>
+
+            <label for="contact-number"><b>Contact Number</b></label>
             <input type="tel" id="contact-number" placeholder="Contact Number" required>
 
             <h3>What is your favorite food?</h3>
-            <label><input type="radio" name="favorite-food" value="Pizza"> Pizza</label>
-            <label><input type="radio" name="favorite-food" value="Pasta"> Pasta</label>
-            <label><input type="radio" name="favorite-food" value="Pap and Wors"> Pap and Wors</label>
-            <label><input type="radio" name="favorite-food" value="Other"> Other</label>
+            <label><input type="checkbox" name="favorite-food" value="Pizza"> Pizza</label>
+            <label><input type="checkbox" name="favorite-food" value="Pasta"> Pasta</label>
+            <label><input type="checkbox" name="favorite-food" value="Pap and Wors"> Pap and Wors</label>
+            <label><input type="checkbox" name="favorite-food" value="Other"> Other</label>
 
             <h3>Please rate your level of agreement on a scale from 1 to 5, with 1 being "strongly agree" and 5 being "strongly disagree."</h3>
             <table>

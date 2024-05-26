@@ -4,16 +4,26 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    background-image: url(images/survey.png);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .container {
     width: 60%;
     margin: auto;
+    border-radius: 0.5rem;
     overflow: hidden;
     padding: 20px;
-    background: #fff;
+    background: lightBlue;
     margin-top: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: black;
 }
 
 nav {
@@ -24,11 +34,20 @@ nav {
 
 nav a {
     text-decoration: none;
-    color: #333;
+    color: White;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    background: #eee;
+    background: Blue;
+}
+
+nav a:hover {
+    background: grey;
+}
+
+nav a:active {
+    background: #333;
+    color: #fff;
 }
 
 h2, h3 {
@@ -40,16 +59,16 @@ input[type="email"],
 input[type="date"],
 input[type="tel"],
 table {
-    width: 50%;
+    width: 95%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 1.5rem;
 }
 
 button {
     display: block;
     width: 100%;
     padding: 10px;
-    background: #333;
+    background: blue;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -57,7 +76,7 @@ button {
 }
 
 button:hover {
-    background: #555;
+    background: grey;
 }
 
 #results-container {
@@ -72,7 +91,11 @@ table {
 
 th,
 td {
-    border: 1px solid #ccc;
+    border: 1px solid black;
     padding: 8px;
     text-align: center;
+}
+
+#survey-form {
+    padding-bottom: 1.5rem;
 }
