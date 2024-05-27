@@ -24,6 +24,7 @@ def submit_survey():
         return jsonify({"message": "Survey submitted successfully!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
 
 @app.route('/api/results', methods=['GET'])
 def get_results():
@@ -39,10 +40,10 @@ def get_results():
         max_age = max([(datetime.now().year - int(survey['dob'][:4])) for survey in survey_data])
         min_age = min([(datetime.now().year - int(survey['dob'][:4])) for survey in survey_data])
 
-        favorite_foods = [survey['favoriteFood'] for survey in survey_data]
-        percentage_pizza = (favorite_foods.count('Pizza') / survey_count) * 100
-        percentage_pasta = (favorite_foods.count('Pasta') / survey_count) * 100
-        percentage_pap_and_wors = (favorite_foods.count('Pap and Wors') / survey_count) * 100
+        favorite_foods = [food for survey in survey_data for food in survey['favoriteFoods']]
+        percentage_pizza = (favorite_foods.count('Pizza') / len(survey_data)) * 100
+        percentage_pasta = (favorite_foods.count('Pasta') / len(survey_data)) * 100
+        percentage_pap_and_wors = (favorite_foods.count('Pap and Wors') / len(survey_data)) * 100
 
         def average_rating(category):
             return sum([int(survey['ratings'][category]) for survey in survey_data]) / survey_count
@@ -67,6 +68,6 @@ def get_results():
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
+    
 if __name__ == '__main__':
     app.run(debug=True)
