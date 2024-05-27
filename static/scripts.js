@@ -1,3 +1,11 @@
+/* scripts.js 
+    This file contains the JavaScript code for the survey form. 
+    It handles the form submission, validation, and displaying survey results.
+    It also makes fetch requests to the server to submit survey data and retrieve survey results.
+
+    Author: DHLAMINI SNYMAN @ https://www.github.com/SnymanD
+*/
+
 document.getElementById('fill-out-survey').addEventListener('click', () => {
     document.getElementById('survey-form').style.display = 'block';
     document.getElementById('survey-results').style.display = 'none';

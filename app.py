@@ -1,3 +1,12 @@
+# Program: Running the survey
+# 
+# Description: This program is responsible for running the survey. It is a Flask application that allows users to      
+#              submit their survey data and view the results of the survey.
+#              The survey data is stored in a MongoDB database. The results of the survey are calculated based on the  
+#              survey data stored in the database.
+#
+# Author: DHLAMINI SNYMAN @ https://www.github.com/SnymanD
+
 from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
 from datetime import datetime
