@@ -63,6 +63,13 @@ document.getElementById('submit').addEventListener('click', async (e) => {
         }
     };
 
+     // Validate email format using a regular expression
+     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+     if (!emailPattern.test(email)) {
+         alert('Please enter a valid email address.');
+         return;
+     }
+
     const response = await fetch('/api/submit', {
         method: 'POST',
         headers: {
