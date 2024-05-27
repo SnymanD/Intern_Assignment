@@ -29,15 +29,24 @@ def index():
 def submit_survey():
     try:
         data = request.json
+        
+        # Calculate age
+        dob = datetime.strptime(data['dob'], '%Y-%m-%d')
+        age = datetime.now().year - dob.year
+        
+        # Validate age
+        if age < 5 or age > 120:
+            return jsonify({"error": "Age must be between 5 and 120"}), 400
+        
         # Ensure favoriteFoods is stored as an array
         if not isinstance(data.get('favoriteFoods'), list):
             return jsonify({"error": "Favorite foods should be an array"}), 400
+        
         surveys.insert_one(data)
         return jsonify({"message": "Survey submitted successfully!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-    
 @app.route('/api/results', methods=['GET'])
 def get_results():
     try:
@@ -84,6 +93,5 @@ def get_results():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-    
 if __name__ == '__main__':
     app.run(debug=True)

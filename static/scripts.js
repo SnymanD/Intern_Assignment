@@ -65,6 +65,14 @@ document.getElementById('submit').addEventListener('click', async (e) => {
         return;
     }
 
+    // Calculate age
+    const birthDate = new Date(dob);
+    const age = new Date().getFullYear() - birthDate.getFullYear();
+    if (age < 5 || age > 120) {
+        alert('Age must be between 5 and 120.');
+        return;
+    }
+
     const surveyData = {
         fullNames,
         email,
@@ -94,6 +102,7 @@ document.getElementById('submit').addEventListener('click', async (e) => {
         alert('Failed to submit survey.');
     }
 });
+
 
 
 
