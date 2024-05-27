@@ -38,21 +38,14 @@ document.getElementById('submit').addEventListener('click', async (e) => {
     const email = document.getElementById('email').value.trim();
     const dob = document.getElementById('date-of-birth').value;
     const contactNumber = document.getElementById('contact-number').value.trim();
-    const favoriteFoods = Array.from(document.querySelectorAll('input[name="favorite-food[]"]:checked')).map(checkbox => checkbox.value);
+    const favoriteFood = document.querySelector('input[name="favorite-food"]:checked');
     const movies = document.querySelector('input[name="movies"]:checked');
     const radio = document.querySelector('input[name="radio"]:checked');
     const eatOut = document.querySelector('input[name="eat-out"]:checked');
     const tv = document.querySelector('input[name="tv"]:checked');
 
-    if (!fullNames || !email || !dob || !contactNumber || favoriteFoods.length === 0 || !movies || !radio || !eatOut || !tv) {
+    if (!fullNames || !email || !dob || !contactNumber || !favoriteFood || !movies || !radio || !eatOut || !tv) {
         alert('Please fill out all required fields.');
-        return;
-    }
-
-    // Validate email format using a regular expression
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-        alert('Please enter a valid email address.');
         return;
     }
 
@@ -61,7 +54,7 @@ document.getElementById('submit').addEventListener('click', async (e) => {
         email,
         dob,
         contactNumber,
-        favoriteFoods,
+        favoriteFood: favoriteFood.value,
         ratings: {
             movies: movies.value,
             radio: radio.value,
