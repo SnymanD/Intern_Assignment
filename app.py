@@ -20,12 +20,15 @@ def index():
 def submit_survey():
     try:
         data = request.json
+        # Ensure favoriteFoods is stored as an array
+        if not isinstance(data.get('favoriteFoods'), list):
+            return jsonify({"error": "Favorite foods should be an array"}), 400
         surveys.insert_one(data)
         return jsonify({"message": "Survey submitted successfully!"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
 
+    
 @app.route('/api/results', methods=['GET'])
 def get_results():
     try:
@@ -40,13 +43,14 @@ def get_results():
         max_age = max([(datetime.now().year - int(survey['dob'][:4])) for survey in survey_data])
         min_age = min([(datetime.now().year - int(survey['dob'][:4])) for survey in survey_data])
 
-        favorite_foods = [food for survey in survey_data for food in survey['favoriteFoods']]
-        percentage_pizza = (favorite_foods.count('Pizza') / len(survey_data)) * 100
-        percentage_pasta = (favorite_foods.count('Pasta') / len(survey_data)) * 100
-        percentage_pap_and_wors = (favorite_foods.count('Pap and Wors') / len(survey_data)) * 100
+        favorite_foods = [food for survey in survey_data for food in survey.get('favoriteFoods', [])]
+        percentage_pizza = (favorite_foods.count('Pizza') / survey_count) * 100
+        percentage_pasta = (favorite_foods.count('Pasta') / survey_count) * 100
+        percentage_pap_and_wors = (favorite_foods.count('Pap and Wors') / survey_count) * 100
 
         def average_rating(category):
-            return sum([int(survey['ratings'][category]) for survey in survey_data]) / survey_count
+            total = sum([int(survey['ratings'][category]) for survey in survey_data if category in survey['ratings']])
+            return total / survey_count if survey_count > 0 else 0
 
         average_movies = average_rating('movies')
         average_radio = average_rating('radio')
@@ -68,6 +72,7 @@ def get_results():
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
     
 if __name__ == '__main__':
     app.run(debug=True)
