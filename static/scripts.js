@@ -30,18 +30,19 @@ Average ratings:
     }
 });
 
-document.getElementById('submit').addEventListener('click', async (event) => {
-    event.preventDefault();
-
-    const fullNames = document.getElementById('full-names').value;
-    const email = document.getElementById('email').value;
+document.getElementById('submit').addEventListener('click', async (e) => {
+    e.preventDefault(); // Prevent form from submitting normally
+    
+    // Validate form inputs
+    const fullNames = document.getElementById('full-names').value.trim();
+    const email = document.getElementById('email').value.trim();
     const dob = document.getElementById('date-of-birth').value;
-    const contactNumber = document.getElementById('contact-number').value;
-    const favoriteFood = document.querySelector('input[name="favorite-food"]:checked')?.value;
-    const movies = document.querySelector('input[name="movies"]:checked')?.value;
-    const radio = document.querySelector('input[name="radio"]:checked')?.value;
-    const eatOut = document.querySelector('input[name="eat-out"]:checked')?.value;
-    const tv = document.querySelector('input[name="tv"]:checked')?.value;
+    const contactNumber = document.getElementById('contact-number').value.trim();
+    const favoriteFood = document.querySelector('input[name="favorite-food"]:checked');
+    const movies = document.querySelector('input[name="movies"]:checked');
+    const radio = document.querySelector('input[name="radio"]:checked');
+    const eatOut = document.querySelector('input[name="eat-out"]:checked');
+    const tv = document.querySelector('input[name="tv"]:checked');
 
     if (!fullNames || !email || !dob || !contactNumber || !favoriteFood || !movies || !radio || !eatOut || !tv) {
         alert('Please fill out all required fields.');
@@ -53,12 +54,12 @@ document.getElementById('submit').addEventListener('click', async (event) => {
         email,
         dob,
         contactNumber,
-        favoriteFood,
+        favoriteFood: favoriteFood.value,
         ratings: {
-            movies,
-            radio,
-            eatOut,
-            tv
+            movies: movies.value,
+            radio: radio.value,
+            eatOut: eatOut.value,
+            tv: tv.value
         }
     };
 
@@ -77,4 +78,5 @@ document.getElementById('submit').addEventListener('click', async (event) => {
         alert('Failed to submit survey.');
     }
 });
+
 

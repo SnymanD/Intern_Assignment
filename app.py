@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)  # Allow cross-origin requests
 
 # MongoDB setup
-client = MongoClient('mongodb://localhost:27017/survey_db.surveys')  # Update this if your MongoDB is not running locally
+client = MongoClient('mongodb://localhost:27017/survey_db.surveys')
 db = client['survey_db']
 surveys = db['surveys']
 
