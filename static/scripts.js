@@ -17,15 +17,16 @@ Total number of surveys: ${data.total_surveys}
 Average Age: ${data.average_age}
 Oldest person who participated in survey: ${data.max_age}
 Youngest person who participated in survey: ${data.min_age}
+
 Percentage of people who like Pizza: ${data.percentage_pizza}%
 Percentage of people who like Pasta: ${data.percentage_pasta}%
 Percentage of people who like Pap and Wors: ${data.percentage_pap_and_wors}%
 
 Average ratings:
-- I like to watch movies: ${data.average_movies}
-- I like to listen to radio: ${data.average_radio}
-- I like to eat out: ${data.average_eat_out}
-- I like to watch TV: ${data.average_tv}
+- People who like to watch movies: ${data.average_movies}
+- People who like to listen to radio: ${data.average_radio}
+- People who like to eat out: ${data.average_eat_out}
+- People who like to watch TV: ${data.average_tv}
         `;
     }
 });

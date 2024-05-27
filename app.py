@@ -62,9 +62,11 @@ def get_results():
             "average_age": average_age,
             "max_age": max_age,
             "min_age": min_age,
+            
             "percentage_pizza": percentage_pizza,
             "percentage_pasta": percentage_pasta,
             "percentage_pap_and_wors": percentage_pap_and_wors,
+            
             "average_movies": average_movies,
             "average_radio": average_radio,
             "average_eat_out": average_eat_out,
